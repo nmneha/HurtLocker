@@ -42,4 +42,34 @@ public class JerkSONTest extends TestCase {
         expected.addAll(List.of(list));
         Assert.assertEquals(expected, split);
     }
+
+    public void testGetName() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String name = jerk.getName(s);
+            System.out.println((i++) + ". " + name);
+        }
+        String name = jerk.getName(split.get(3));
+        String nameEmpty = jerk.getName(split.get(13));
+        Assert.assertEquals("MiLK", name);
+        Assert.assertEquals("", nameEmpty);
+    }
+
+    public void testGetType() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String type = jerk.getType(s);
+            System.out.println((i++) + ". " + type);
+        }
+        for (String s : split) {
+            String type = jerk.getType(s);
+            Assert.assertEquals("Food", type);
+        }
+    }
+
+
 }

@@ -23,4 +23,27 @@ public class JerkSON {
         }
         return groceryList;
     }
+
+
+    public String getName(String groceryItem) {
+        String name = "";
+        Pattern pattern = Pattern.compile("(?<=name[:]).*?(?=[;])", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(groceryItem);
+        if (matcher.find()) {
+            name = matcher.group();
+        }
+            return name;
+    }
+
+    public String getType(String groceryItem) {
+        String name = "";
+        Pattern pattern = Pattern.compile("(?<=type[:]).*?(?=[;^%*!@])", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(groceryItem);
+        if (matcher.find()) {
+            name = matcher.group();
+        }
+        return name;
+    }
+
+
 }
