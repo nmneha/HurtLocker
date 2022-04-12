@@ -3,6 +3,7 @@ import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class JerkSONTest extends TestCase {
     JerkSON jerk = new JerkSON();
@@ -43,33 +44,115 @@ public class JerkSONTest extends TestCase {
         Assert.assertEquals(expected, split);
     }
 
-    public void testGetName() throws Exception {
+    public void testGetValueName() throws Exception {
         String raw = jerk.readRawDataToString();
         List<String> split = jerk.splitRawData(raw);
         int i = 1;
         for (String s : split) {
-            String name = jerk.getName(s);
+            String name = jerk.getValue("name", ";", s);
             System.out.println((i++) + ". " + name);
         }
-        String name = jerk.getName(split.get(3));
-        String nameEmpty = jerk.getName(split.get(13));
+
+        String name = jerk.getValue("name", ";", split.get(3));
+        String nameEmpty = jerk.getValue("name", ";", split.get(13));
         Assert.assertEquals("MiLK", name);
         Assert.assertEquals("", nameEmpty);
     }
 
-    public void testGetType() throws Exception {
+    public void testGetValuePrice() throws Exception {
         String raw = jerk.readRawDataToString();
         List<String> split = jerk.splitRawData(raw);
         int i = 1;
         for (String s : split) {
-            String type = jerk.getType(s);
+            String price = jerk.getValue("price", ";^%*!@", s);
+            System.out.println((i++) + ". " + price);
+        }
+        String price = jerk.getValue("price", ";^%*!@", split.get(3));
+        String priceEmpty = jerk.getValue("price", ";^%*!@", split.get(23));
+        Assert.assertEquals("3.23", price);
+        Assert.assertEquals("", priceEmpty);
+
+    }
+
+    public void testGetValueType() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String type = jerk.getValue("type", ";^*%!@", s);
             System.out.println((i++) + ". " + type);
         }
         for (String s : split) {
-            String type = jerk.getType(s);
+            String type = jerk.getValue("type", ";^%*!@", s);
             Assert.assertEquals("Food", type);
         }
     }
 
+    public void testGetValueExpiration() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String expiration = jerk.getValue("expiration", "##", s);
+            System.out.println((i++) + ". " + expiration);
+        }
+        String expiration = jerk.getValue("expiration", "##", split.get(3));
+        Assert.assertEquals("1/11/2016", expiration);
+    }
+
+    public void testGetKeyName() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String name = jerk.getKey("name", s);
+            System.out.println((i++) + ". " + name);
+        }
+
+        String name = jerk.getKey("name", split.get(3));
+        Assert.assertEquals("name", name);
+    }
+
+
+    public void testGetKeyPrice() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String price = jerk.getKey("price", s);
+            System.out.println((i++) + ". " + price);
+        }
+
+        String price = jerk.getKey("price", split.get(3));
+        Assert.assertEquals("price", price);
+    }
+
+
+    public void testGetKeyType() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String type = jerk.getKey("type", s);
+            System.out.println((i++) + ". " + type);
+        }
+
+        String type = jerk.getKey("type", split.get(3));
+        Assert.assertEquals("type", type);
+    }
+
+
+    public void testGetKeyExpiration() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        int i = 1;
+        for (String s : split) {
+            String expiration = jerk.getKey("expiration", s);
+            System.out.println((i++) + ". " + expiration);
+        }
+
+        String expiration = jerk.getKey("expiration", split.get(3));
+        Assert.assertEquals("expiration", expiration);
+    }
 
 }

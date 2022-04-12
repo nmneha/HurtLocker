@@ -1,10 +1,10 @@
 public class Grocery {
     String name;
-    double price;
+    String price;
     String type;
     String expiration;
 
-    public Grocery(String name, double price, String type, String expiration) {
+    public Grocery(String name, String price, String type, String expiration) {
         this.name = name;
         this.price = price;
         this.type = type;
