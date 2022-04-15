@@ -155,4 +155,37 @@ public class JerkSONTest extends TestCase {
         Assert.assertEquals("expiration", expiration);
     }
 
+    public void testGroceryList() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        List<Grocery> groceryList = jerk.grocery(split);
+        for (Grocery g : groceryList) {
+            String name = g.getName();
+            String price = g.getPrice();
+            System.out.println("Name: " + name +
+                    "\nPrice: " + price +
+                    "\n--------------");
+        }
+        Grocery actual = groceryList.get(0);
+        Assert.assertEquals("Milk", actual.getName());
+        Assert.assertEquals("3.23", actual.getPrice());
+    }
+
+    public void testFixNames() throws Exception {
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        List<Grocery> groceryList = jerk.grocery(split);
+        jerk.name(groceryList);
+        for (Grocery g : groceryList) {
+            String name = g.getName();
+            String price = g.getPrice();
+            System.out.println("Name: " + name +
+                    "\nPrice: " + price +
+                    "\n--------------");
+        }
+        Grocery actual = groceryList.get(1);
+        Assert.assertEquals("Bread", actual.getName());
+        Assert.assertEquals("1.23", actual.getPrice());
+    }
+
 }

@@ -1,17 +1,16 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
-    public String readRawDataToString() throws Exception{
-        ClassLoader classLoader = getClass().getClassLoader();
-        String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
-        return result;
-    }
-
     public static void main(String[] args) throws Exception{
-        String output = (new Main()).readRawDataToString();
-        System.out.println(output);
+        JerkSON jerk = new JerkSON();
+        String raw = jerk.readRawDataToString();
+        List<String> split = jerk.splitRawData(raw);
+        List<Grocery> groceryList = jerk.grocery(split);
+        jerk.name(groceryList);
+        System.out.println(jerk.printFormat(groceryList));
 
     }
 }
